@@ -78,7 +78,8 @@
                             <a href="#" class="btn btn-outline-primary btn-sm mb-1" data-target="#modalDetalhes{{i.id}}" data-toggle="modal">Mais imagens</a>
 
                             {% if user.is_authenticated and request.user.enderecouser_set.all %}
-                            <a href="{% url 'oticas:adicionar' i.id %}" class="btn btn-outline-success btn-sm">Adicionar ao carrinho</a>
+                            <a href="{% url 'oticas:adicionar' i.id %}" data-target="#modalCart{{i.id}}" data-toggle="modal"
+                               class="btn btn-outline-success btn-sm">Adicionar ao carrinho</a>
 
                             {% elif user.is_authenticated %}
                             <a href="{% url 'oticas:endereco' %}" class="btn btn-outline-success btn-sm">Adicionar ao carrinho</a>
@@ -130,6 +131,28 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal adding to cart -->
+
+                <div class="modal fade" id="modalCart{{i.id}}" tabindez="-1" role="dialog" data-backdrop="static">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Produto adicionado ao carrinho</h5>
+                                <a href="{% url 'oticas:adicionar' i.id %}" target="_self" class="close">
+                                    <span>&times;</span>
+                                </a>
+                            </div>
+
+                            <div class="modal-body">
+                                <img class="card-img-top mb-3" src="{{ i.imagem.url }}" alt="Card image cap">
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'oticas:adicionar' i.id %}" target="_self" class="btn btn-danger">Fechar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
                 {% endfor %}
             </div>
@@ -139,4 +162,3 @@
 
 
 {% endblock content %}
-
