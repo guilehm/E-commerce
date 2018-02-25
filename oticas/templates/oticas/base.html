@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR">
+
+	<head>
+		<meta charset="utf-8">
+		<title>Gui - Ótica</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- CSS -->
+		{% load staticfiles %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{% static 'oticas/css/bootstrap.css' %}">
+		<link rel="stylesheet" href="{% static 'oticas/css/estilo.css' %}">
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'oticas/img/favicon.ico' %}">
+	</head>
+
+	<body>
+
+		<!-- Facebook -->
+		<div id="fb-root"></div>
+			<script>(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.12';
+				fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+			</script>
+
+		<!-- Barra Social Topo-->
+		<section class="social p-1">
+			<div class="container">
+				<div class="row">
+					<div class="col-6">
+						<div class="social-icon">
+							<a href="https://www.facebook.com/guile.hm" target="_blank"><i class="fa fa-facebook"></i></a>
+							<a href="https://www.instagram.com/guilehm/" target="_blank"><i class="fa fa-instagram"></i></a>
+							<a href="https://github.com/Guilehm" target="_blank"><i class="fa fa-github"></i></a>
+						</div>
+					</div>
+					<div class="col-6">
+						<a href="#"><i class="fa fa-phone"></i>(16) 99999-9410</a>
+						<a href="#"><i class="fa fa-envelope"></i>guile.hm@hotmail.com</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Menu Principal -->
+		<div class="container-fluid bg-light">
+			<div class="container py-3">
+				<nav class="navbar navbar-expand-sm navbar-light bg-light p-0">
+					<a class="navbar-brand" href="#">
+						<img src="{% static 'oticas/img/logo-01.png' %}" width="30" height="30" alt="">
+						<!-- welcome info -->
+						{% if user.is_authenticated and user.first_name %}
+								Olá, {{ user.first_name }}!
+							{% elif user.is_authenticated %}
+								Olá, {{ user.username }}!
+							{% else %}
+						Ótica
+						{% endif %}
+					</a>
+
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					{% block menu %}
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item active">
+								<a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:index' %}">Home <span class="sr-only">(current)</span></a>
+							</li>
+							<li class="nav-item">
+								<a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:oculos' %}">Produtos</a>
+							</li>
+							<li class="nav-item">
+								<a class="btn btn-outline-dark btn-sm m-1" href="#">Lojas</a>
+							</li>
+							<li class="nav-item">
+								<a class="btn btn-outline-dark btn-sm m-1" href="#">Quem Somos</a>
+							</li>
+							<li class="nav-item">
+								<a class="btn btn-outline-dark btn-sm m-1" href="#">Contato</a>
+							</li>
+							{% if user.is_authenticated %}
+							<li class="nav-item">
+								<a class="btn btn-outline-primary btn-sm m-1" href="{% url 'oticas:carrinho' %}">Carrinho <span class="badge badge-success">{{ qtd_carrinho }}</span></a>
+							</li>
+							<li class="nav-item">
+								<a class="btn btn-outline-danger btn-sm m-1" href="{% url 'oticas:logout' %}">Log-out</a>
+							</li>
+
+							{% else %}
+							<li class="nav-item">
+								<a class="btn btn-outline-info btn-sm m-1" href="{% url 'oticas:login' %}">Log-in</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="btn btn-outline-success btn-sm m-1" href="{% url 'oticas:cadastro' %}">Cadastro</a>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+					{% endblock menu %}
+				</nav>
+			</div>
+		</div>
+
+		<!-- Main view -->
+		{% block main-view %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12 img-home">
+					<!-- <h1 class="display-2 mt-4 title-black shadowed"><img class="logo-home" src="{% static 'oticas/img/logo-01.png' %}"></h1> -->
+					<h1 class="display-3 mt-4 shadowed">Bem-vindo ao nosso site</h1>
+					<!-- <p class="lead mx-4 mt-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut lobortis arcu. -->
+					</p>
+					<div class="text-center mt-4">
+						<a role="button" class="btn btn-info btn-lg btn-center" href="{% url 'oticas:oculos' %}">Compre Agora</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endblock main-view %}
+
+        {% block content %}
+        {% endblock content %}
+
+		<!-- fale-conosco -->
+		<section class="m-0">
+			<div class="container-fluid fale-conosco bg-info text-center p-5">
+				<div>
+					<a href="#">FALE CONOSCO</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Redes Sociais -->
+		<section>
+			<div class="container redes-sociais text-center">
+				<div class="jumbotron bg-black">
+					<a href="#" class="redes-texto" id="texto-redes">REDES SOCIAIS</a>
+					<div class="row">
+						<div class="social-icon">
+							<a href="https://www.facebook.com/guile.hm" class="p-5 a-incr"><i class="fa fa-facebook"></i></a>
+							<a href="https://www.instagram.com/guilehm/" class="p-5 a-incr"><i class="fa fa-instagram"></i></a>
+							<a href="https://github.com/Guilehm" class="p-5 a-incr"><i class="fa fa-github"></i></a>
+							<a href="https://www.linkedin.com/in/guils/" class="p-5 a-incr"><i class="fa fa-linkedin"></i></a>
+							<a href="https://twitter.com/Guile_hm" class="p-5 a-incr"><i class="fa fa-twitter"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- visite nossas lojas -->
+		<section class="m-0">
+			<div class="container-fluid visite bg-light text-center p-5">
+				<div>
+					<a href="#">VISITE-NOS</a>
+					<hr class="bg-white my-3">
+				</div>
+
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.6107753607753!2d-46.632357184260364!3d-23.582418668257155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce597fa810fd37%3A0xdd4daf819f42b277!2sRua+Dona+In%C3%A1cia+Uchoa%2C+620+-+Vila+Mariana%2C+S%C3%A3o+Paulo+-+SP%2C+04110-021!5e0!3m2!1spt-BR!2sbr!4v1518553737928"
+					width="100%" height="400px" frameborder="0" style="border:0" allowfullscreen>
+				</iframe>
+
+			</div>
+		</section>
+
+		<!--Footer-->
+		<footer>
+			<div class="container-fluid bg-dark pt-3">
+				<div class="container text-white">
+					<div class="row">
+						<div class="class col-6 pl-0 pr-0">
+							<p>Copyright © 2018. Ótica. Todos os direitos reservados. </p>
+						</div>
+						<div class="col-6 linkf">
+							<p>Desenvolvido em Python por
+							<a href="https://www.facebook.com/guile.hm">Guilherme Luis</a>.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	</body>
+</html>

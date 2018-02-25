@@ -1,0 +1,52 @@
+{% extends "oticas/base.html" %}
+{% load staticfiles %}
+
+
+{% block main-view %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 img-home">
+            <h1 class="display-2 mt-4 title-white shadowed">Ótima escolha!</h1>
+            <p class="lead mx-4 mt-5">
+                Esperamos que tenha tido uma ótima experiência em nosso site.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock main-view %}
+
+{% block content %}
+<!-- carrinho -->
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>Conte com a segurança do Pay-Pal.</h1>
+        <h6 class="text-muted font-weight-normal">Finalize seu pagamento através do botão abaixo.</h6><br>
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="paypal">
+        <input type="hidden" name="cmd" value="_cart">
+        <input type="hidden" name="upload" value="1">
+        <input type="hidden" name="business" value="guile.hm@hotmail.com">
+        <input type="hidden" name="currency_code" value="BRL">
+        <input type="hidden" name="lc" value="BR">
+
+        {% for i in oculos %}
+        <input type="hidden" name="item_name_{{ forloop.counter }}" value="{{ i }}">
+        <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ i.valor }}">
+        <input type="hidden" name="shipping_{{ forloop.counter }}" value="{{ valor_unit }}">
+        {% endfor %}
+
+        <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+    </form>
+
+    </div>
+</div>
+
+<div class="container">
+    <!-- working form -->
+
+
+</div>
+
+
+{% endblock content %}

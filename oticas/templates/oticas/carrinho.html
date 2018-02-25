@@ -1,0 +1,136 @@
+{% extends "oticas/base.html" %}
+{% load staticfiles %}
+
+{% block menu %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+            <a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:oculos' %}">Produtos</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="#">Lojas</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="#">Quem Somos</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="#">Contato</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="btn btn-primary btn-sm m-1" href="{% url 'oticas:carrinho' %}">Carrinho <span class="badge badge-success">{{ qtd_carrinho }}</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-danger btn-sm m-1" href="{% url 'oticas:logout' %}">Log-out</a>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+            <a class="btn btn-outline-info btn-sm m-1" href="{% url 'oticas:login' %}">Log-in</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="btn btn-outline-success btn-sm m-1" href="{% url 'oticas:cadastro' %}">Cadastro</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock menu %}
+
+{% block main-view%}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 img-home">
+            <h1 class="display-2 mt-4 title-white shadowed">Meu carrinho</h1>
+            <div class="text-center mt-4">
+                <a role="button" class="btn btn-success btn-lg btn-center" href="">Compre com segurança</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-view %}
+
+{% block content %}
+<!-- carrinho -->
+{% if oculos %}
+<div class="container mt-5">
+    <h2 class="display-4 mb-5">Meu carrinho:</h2>
+    <table class="table table-hover">
+        <thead class="thead-dark" align="center">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Excluir</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            {% for i in oculos %}
+            <tr>
+                <th scope="row" width="5%">{{ i.id }}</th>
+                <td>{{ i.marca }}</td>
+                <td>{{ i.modelo }}</td>
+                <td>R$ {{ i.valor }}</td>
+                <td width="12%">
+                    <form action="{% url 'oticas:deletar' i.id %}">
+                        <button type="submit" class="close-center" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <a class="btn btn-primary btn-sm m-1" href="{% url 'oticas:oculos' %}">Escolher mais produtos</a>
+
+        </div>
+        <div class="col-8">
+            <p class="text-right">
+                Total: <strong>R$ {{ total }}</strong>
+            </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <p>
+                Prazo de entrega: {{ prazo }} dia{{ prazo|pluralize }} út{{ prazo|pluralize:'il,eis'}}.
+            </p>
+            <a class="btn btn-success btn-sm m-1" href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>
+        </div>
+        <div class="col-4 text-right">
+
+        </div>
+        <div class="col-4">
+            <p class="text-right">
+                Preço do Frete: <strong>R$ {{ valor }}</strong>
+            </p>
+            <hr>
+            <p class="text-right">
+                <strong>Total pedido: R$ {{ total_geral }}</strong>
+            </p>
+        </div>
+    </div>
+    <hr>
+</div>
+
+
+
+{% else %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Que pena, meu carrinho está vazio :(</h1>
+        <h6 class="text-muted font-weight-normal">Visite nossa página de <a href="{% url 'oticas:oculos' %}" class="text-dark">produtos</a>, escolha o seu óculos e clique em 'Adicionar ao carrinho'.</h6>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}

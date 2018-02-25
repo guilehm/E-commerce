@@ -1,0 +1,31 @@
+{% extends "oticas/base.html" %}
+{% load staticfiles %}
+
+{% block main-view%}
+<script src="{% static 'oticas/js/fone.js' %}"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 img-home">
+            <h1 class="display-2 mt-4 title-white shadowed">Cadastre-se</h1>
+            <p class="lead mx-4 mt-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut lobortis arcu.
+            </p>
+            <div class="text-center mt-4">
+                <a role="button" class="btn btn-info btn-lg btn-center" href="#">Cadastrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-view %}
+
+{% block content %}
+
+<div class="container my-5">
+    <form method="POST">
+        <h2 class="display-4">Cadastre-se</h2>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-sm btn-outline-success">Cadastrar</button>
+    </form>
+</div>
+
+{% endblock content %}

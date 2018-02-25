@@ -1,0 +1,32 @@
+{% extends "oticas/base.html" %}
+{% load staticfiles %}
+
+{% block main-view%}
+<script src="{% static 'oticas/js/cep.js' %}"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 img-home">
+            <h1 class="display-2 mt-4 title-white shadowed">Endereço</h1>
+            <p class="lead mx-4 mt-5">Cadastre seu endereço de entrega para comprar em nosso site.
+            </p>
+            <div class="text-center mt-4">
+                <a role="button" class="btn btn-info btn-lg btn-center" href="#">Editar Endereço</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-view %}
+
+{% block content %}
+
+<div class="container my-5">
+    <form method="POST">
+        <h2 class="display-4">Cadastre seu endereço</h2>
+        {% csrf_token %}
+        {{ end_form.as_p }}
+        <button type="submit" class="btn btn-sm btn-outline-success">Salvar</button>
+    </form>
+</div>
+
+
+{% endblock content %}

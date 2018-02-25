@@ -1,0 +1,222 @@
+.social {
+	background-color: black;
+}
+
+.social a, i{
+	color: white;
+	padding: 4px;
+	font-family: tahoma;
+	font-size: 12px;
+}
+
+.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.img-home {
+	background: url(../img/17.jpg) no-repeat center center;
+	height: 500px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+
+.img-home h1, .lead {
+	color: white;
+	text-align: center;
+	text-shadow: 2px 2px 10px black;
+}
+
+.img-home .lead {
+	margin-top: 10%;
+	padding: 0px;
+	text-shadow: 1px 1px px black;
+}
+
+.produtos p {
+	color: grey
+}
+
+.child {
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.child:first-child {
+	margin-left: 0px;
+}
+.child:last-child {
+	margin-right: 0px;
+}
+
+.card {
+}
+
+.bg01 {
+	background-color: #BFDBF7;
+}
+
+.container-fluid .bg01 {
+}
+
+.bg02 {
+    background-color: #C5D1EB;
+}
+
+.bg03 {
+	background-color: #86615C;
+	color: white;
+}
+
+.linkf a{
+	color: white;
+}
+
+.logo-home {
+	width: 150px;
+}
+
+.shadowed {
+  -webkit-filter: drop-shadow(1px 1px 50px #ffff);
+  filter: drop-shadow(1px 1px 50px #ffff);
+}
+
+.title-black {
+	color: black !important
+}
+
+.title-white {
+	color: white !important
+}
+
+.brd-mk h2 {
+	font-family: fantasy, 'Verdana', arial;
+	letter-spacing: 11px;
+	transition: 300ms ease-out;
+	transition-delay: 300ms;
+	}
+
+.brd-mk h2:hover {
+	letter-spacing: 15px;
+}
+
+.brd-mk img {
+	border: 20px solid black;
+	transition: 600ms ease-out;
+	transition-delay: 300ms;
+}
+
+.brd-mk img:hover {
+	border: 20px solid white;
+}
+
+
+.fale-conosco a {
+	font-family: fantasy, 'Verdana', arial;
+	letter-spacing: 20px;
+	font-size:  30px;
+	color: white;
+}
+
+.google-maps {
+    position: relative;
+    padding-bottom: 75%; // This is the aspect ratio
+    height: 0;
+    overflow: hidden;
+}
+.google-maps iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.visite a {
+	font-family: fantasy, 'Verdana', arial;
+	letter-spacing: 20px;
+	font-size:  30px;
+	color: black;
+}
+
+.redes-sociais .redes-texto {
+    font-family: fantasy, 'Verdana', arial;
+	letter-spacing: 20px;
+	font-size:  30px;
+	color: white;
+	text-align: center;
+	width: 50%;
+	margin: auto;
+}
+
+.redes-texto:hover {
+    text-decoration: none;
+}
+.redes-sociais .a-incr {
+    font-size: 100px;
+    transition: 200ms ease-out;
+}
+
+.redes-sociais .a-incr:hover {
+    font-size: 90px;
+}
+
+.bg-black {
+    background-color: black;
+}
+
+#id_email, #id_password1, #id_password2, #id_username, #id_password, #id_cep, #id_rua, #id_bairro, #id_cidade,
+#id_estado, #id_numero, #id_complemento, #id_telefone, #id_cpf {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.errorlist li{
+    color: red;
+    list-style-type: none;
+}
+
+.helptext {
+    color: grey;
+    font-size: 0.775rem;
+}
+
+
+.close-center {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+}
+
+.close-center:hover, ..close-center:focus {
+  color: #000;
+  text-decoration: none;
+  opacity: .75;
+}
+
+.close-center:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+button.close-center {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}

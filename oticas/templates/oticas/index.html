@@ -1,0 +1,91 @@
+{% extends "oticas/base.html" %}
+{% load staticfiles %}
+
+{% block menu %}
+<div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+            <a class="btn btn-dark btn-sm m-1" href="{% url 'oticas:index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:oculos' %}">Produtos</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="#">Lojas</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="#">Quem Somos</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-dark btn-sm m-1" href="#">Contato</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+            <a class="btn btn-outline-primary btn-sm m-1" href="{% url 'oticas:carrinho' %}">Carrinho <span class="badge badge-success">{{ qtd_carrinho }}</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-danger btn-sm m-1" href="{% url 'oticas:logout' %}">Log-out</a>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+            <a class="btn btn-outline-info btn-sm m-1" href="{% url 'oticas:login' %}">Log-in</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="btn btn-outline-success btn-sm m-1" href="{% url 'oticas:cadastro' %}">Cadastro</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock menu %}
+
+{% block content %}
+<!-- Nova seção -->
+<section>
+    <div class="container">
+        <div class="jumbotron mb-0 brd-mk">
+            <div class="row my-5">
+                <div class="col-md-6">
+                    <img class="img-fluid img-row" src="{% static 'oticas/img/06.jpg' %}">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mt-3">NOSSAS<br>
+                    INCRÍVEIS<br>
+                    MARCAS</h2>
+                    <button type="button" class="btn btn-outline-success btn-md mb-3">Veja</button>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-md-6">
+                    <h2 class="mt-3 text-right">VENHA<br>
+                        NOS<br>
+                        CONHECER
+                    </h2>
+                    <button class="btn btn-outline-success btn-md pull-right mb-3">Visite nossas lojas</button>
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid img-row" src="{% static 'oticas/img/07.jpg' %}">
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-md-6">
+                    <img class="img-fluid img-row" src="{% static 'oticas/img/12.jpg' %}">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mt-3">ESCOLHA<br>
+                    AQUI<br>
+                    SEU ÓCULOS</h2>
+                    <a href="{% url 'oticas:oculos' %}" class="btn btn-outline-success btn-md mb-3">Compre agora</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock content %}
