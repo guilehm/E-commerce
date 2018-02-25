@@ -13,6 +13,7 @@ django-staticfiles==1.2.1
 django-storages==1.6.5
 docutils==0.14
 idna==2.6
+gunicorn==19.7.1
 jmespath==0.9.3
 Pillow==5.0.0
 python-dateutil==2.6.1
