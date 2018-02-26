@@ -67,7 +67,7 @@
                 {% for i in oculos %}
                 {% if i.disp %}
                 <div class="col-12 col-md-4 col-lg-3 child" style="width: 18rem;">
-                    <div class="card">
+                    <div class="card border-0">
                         <img class="card-img-top" src="{{ i.imagem.url }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title mb-1">{{i.marca}}</h5>
@@ -75,16 +75,19 @@
                             <p class="card-text m-0"><strong>Preço: R$ {{i.valor}}</strong></p>
                             <p class="card-text m-0">{{i.pagamento}}</p>
                             <p class="card-text mt-0"><strong>Prazo entrega:</strong> {{i.prazo}} dias</p>
-                            <a href="#" class="btn btn-outline-primary btn-sm mb-1" data-target="#modalDetalhes{{i.id}}" data-toggle="modal">Mais imagens</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm mt-1" data-target="#modalDetalhes{{i.id}}" data-toggle="modal">Imagens</a>
 
                             {% if user.is_authenticated and request.user.enderecouser_set.all %}
-                            <a href="{% url 'oticas:adicionar' i.id %}" data-target="#modalCart{{i.id}}" data-toggle="modal"
-                               class="btn btn-outline-success btn-sm">Adicionar ao carrinho</a>
+                            <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
+                               class="btn btn-outline-info btn-sm mt-1">Detalhes</a>
+                            <a href="{% url 'oticas:adicionar' i.id %}" class="btn btn-success btn-sm mt-1">
+                                <i class="fas fa-cart-arrow-down"></i>
+                            </a>
 
                             {% elif user.is_authenticated %}
-                            <a href="{% url 'oticas:endereco' %}" class="btn btn-outline-success btn-sm">Adicionar ao carrinho</a>
+                            <a href="{% url 'oticas:endereco' %}" class="btn btn-outline-success btn-sm mt-1">Adicionar ao carrinho</a>
                             {% else %}
-                            <a href="{% url 'oticas:login' %}" class="btn btn-outline-success btn-sm">Faça Login para comprar</a>
+                            <a href="{% url 'oticas:login' %}" class="btn btn-outline-success btn-sm mt-1">Faça Login para comprar</a>
                             {% endif %}
                        </div>
                     </div>
@@ -133,22 +136,27 @@
                 </div>
 
                 <!-- Modal adding to cart -->
-
                 <div class="modal fade" id="modalCart{{i.id}}" tabindez="-1" role="dialog" data-backdrop="static">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Produto adicionado ao carrinho</h5>
-                                <a href="{% url 'oticas:adicionar' i.id %}" target="_self" class="close">
+                                <h5 class="modal-title">Detalhes do produto</h5>
+                                <button type="button" class="close" data-dismiss="modal">
                                     <span>&times;</span>
-                                </a>
+                                </button>
                             </div>
 
                             <div class="modal-body">
                                 <img class="card-img-top mb-3" src="{{ i.imagem.url }}" alt="Card image cap">
+                                <p>{{ i }}.<br>
+                                Estilo: {{ i.estilo }}.<br>
+                                Descrição: {{ i.descricao }}.<br>
+                                Preço R$: {{ i.valor }}<br>
+                                Prazo de entrega: {{ i.prazo }} dias + prazo dos correios.</p>
                             </div>
                             <div class="modal-footer">
-                                <a href="{% url 'oticas:adicionar' i.id %}" target="_self" class="btn btn-danger">Fechar</a>
+                                <a href="{% url 'oticas:adicionar' i.id %}" target="_self" class="btn btn-success">Adicionar ao carrinho</a>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
                             </div>
                         </div>
                     </div>
