@@ -31,21 +31,23 @@
 		<section class="social p-1">
 			<div class="container">
 				<div class="row">
-					<div class="col-6">
+					<div class="col-3">
 						<div class="social-icon">
 							<a href="https://www.facebook.com/guile.hm" target="_blank"><i class="fab fa-facebook-square"></i></a>
 							<a href="https://www.instagram.com/guilehm/" target="_blank"><i class="fab fa-instagram"></i></a>
 							<a href="https://github.com/Guilehm" target="_blank"><i class="fab fa-github"></i></a>
-							<!-- welcome info -->
+						</div>
+					</div>
+					<div class="col-4">
+						<!-- welcome info -->
 						{% if user.is_authenticated and user.first_name %}
 								<span class="text-white">Olá, {{ user.first_name }}!</span>
 							{% elif user.is_authenticated %}
 								<span class="text-white">Olá, {{ user.username }}!</span>
 							{% else %}
 						{% endif %}
-						</div>
 					</div>
-					<div class="col-6">
+					<div class="col-5">
 						<a href="#"><i class="fa fa-phone"></i>(16) 99999-9410</a>
 						<a href="#"><i class="fa fa-envelope"></i>guile.hm@hotmail.com</a>
 

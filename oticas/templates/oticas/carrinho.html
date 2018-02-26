@@ -39,11 +39,9 @@
                 </td>
                 <td>R$ {{ i.valor }}</td>
                 <td width="12%">
-                    <form action="{% url 'oticas:deletar' i.id %}">
-                        <button type="submit" class="close-center" aria-label="Close">
+                        <button type="submit" class="close-center" aria-label="Close" data-target="#modalCartDel{{i.id}}" data-toggle="modal">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </form>
                 </td>
             </tr>
 
@@ -74,6 +72,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal deleting to cart -->
+            <div class="modal fade" id="modalCartDel{{i.id}}" tabindez="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Excluído do carrinho</h5>
+                            <a href="{% url 'oticas:deletar' i.id %}" target="_self" class="close">
+                                <span>&times;</span>
+                            </a>
+                        </div>
+
+                        <div class="modal-body">
+                            <strong>{{ i }}.<br></strong>
+                            <img class="card-img-top mb-3" src="{{ i.imagem.url }}" alt="Card image cap">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'oticas:deletar' i.id %}" target="_self" class="btn btn-danger">Fechar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             {% endfor %}
         </tbody>
