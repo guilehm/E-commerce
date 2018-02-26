@@ -116,11 +116,13 @@
 
                             <div class="modal-body">
                                 <img class="card-img-top mb-3" src="{{ i.imagem.url }}" alt="Card image cap">
-                                <p>{{ i }}.<br>
-                                Estilo: {{ i.estilo }}.<br>
-                                Descrição: {{ i.descricao }}.<br>
-                                Preço R$: {{ i.valor }}<br>
-                                Prazo de entrega: {{ i.prazo }} dias + prazo dos correios.</p>
+                                <p>
+                                    <strong>{{ i }}.<br></strong>
+                                    <strong>Estilo:</strong> {{ i.estilo }}.<br>
+                                    <strong>Descrição:</strong> {{ i.descricao }}.<br>
+                                    <strong>Preço R$:</strong> {{ i.valor }}<br>
+                                    <strong>Prazo de entrega:</strong> {{ i.prazo }} dias + prazo dos correios.
+                                </p>
                             </div>
                             <div class="modal-footer">
                                 <a href="{% url 'oticas:adicionar' i.id %}" target="_self" class="btn btn-success">Adicionar ao carrinho</a>

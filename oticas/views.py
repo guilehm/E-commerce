@@ -98,6 +98,14 @@ def carrinho(request):
 
         return(url)
 
+    def prazo_maior (request):
+        carrinho = Carrinho.objects.all()
+        lista_prazo = []
+        for i in carrinho:
+            lista_prazo.append(i.prazo)
+
+        return (int(max(lista_prazo)))
+
     cep_destino = request.user.enderecouser_set.values()[0]['cep']
     url = calcula_frete(cep_destino)
 
@@ -116,7 +124,11 @@ def carrinho(request):
     pos_end_prazo = result.index(find_end_prazo)
 
     valor = result[pos_valor + len(find_valor): pos_end_valor]
-    prazo = result[pos_prazo + len(find_prazo): pos_end_prazo]
+    prazo = int(result[pos_prazo + len(find_prazo): pos_end_prazo])
+
+    prazo_maior_prod = prazo_maior(request)
+
+    prazo += prazo_maior_prod
 
     valor_math = valor.replace(',', '.')
     valor_math = float(valor_math)
@@ -177,6 +189,7 @@ def comprar(request):
         url += '&nIndicaCalculo=3'
 
         return(url)
+
 
     cep_destino = request.user.enderecouser_set.values()[0]['cep']
     url = calcula_frete(cep_destino)
