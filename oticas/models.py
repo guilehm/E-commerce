@@ -72,6 +72,10 @@ class Carrinho(models.Model):
         return self.produto.modelo
 
     @property
+    def estilo(self):
+        return self.produto.estilo
+
+    @property
     def cep(self):
         return self.dono.cep
 

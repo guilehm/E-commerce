@@ -38,11 +38,10 @@
 							<a href="https://github.com/Guilehm" target="_blank"><i class="fab fa-github"></i></a>
 							<!-- welcome info -->
 						{% if user.is_authenticated and user.first_name %}
-								Olá, {{ user.first_name }}!
+								<span class="text-white">Olá, {{ user.first_name }}!</span>
 							{% elif user.is_authenticated %}
-								Olá, {{ user.username }}!
+								<span class="text-white">Olá, {{ user.username }}!</span>
 							{% else %}
-						Ótica
 						{% endif %}
 						</div>
 					</div>

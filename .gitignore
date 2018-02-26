@@ -30,3 +30,6 @@ __pycache__/
 
 .idea/*
 db.sqlite3
+
+# Media
+oticas/media/*
