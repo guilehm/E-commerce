@@ -8,10 +8,9 @@
 
 		<!-- CSS -->
 		{% load staticfiles %}
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{% static 'oticas/css/fontawesome-all.css' %}">
 		<link rel="stylesheet" href="{% static 'oticas/css/bootstrap.css' %}">
 		<link rel="stylesheet" href="{% static 'oticas/css/estilo.css' %}">
-		<link rel="stylesheet" href="{% static 'oticas/css/fontawesome-all.css' %}">
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'oticas/img/favicon.ico' %}">
 	</head>
 
@@ -34,14 +33,23 @@
 				<div class="row">
 					<div class="col-6">
 						<div class="social-icon">
-							<a href="https://www.facebook.com/guile.hm" target="_blank"><i class="fa fa-facebook"></i></a>
-							<a href="https://www.instagram.com/guilehm/" target="_blank"><i class="fa fa-instagram"></i></a>
-							<a href="https://github.com/Guilehm" target="_blank"><i class="fa fa-github"></i></a>
+							<a href="https://www.facebook.com/guile.hm" target="_blank"><i class="fab fa-facebook-square"></i></a>
+							<a href="https://www.instagram.com/guilehm/" target="_blank"><i class="fab fa-instagram"></i></a>
+							<a href="https://github.com/Guilehm" target="_blank"><i class="fab fa-github"></i></a>
+							<!-- welcome info -->
+						{% if user.is_authenticated and user.first_name %}
+								Olá, {{ user.first_name }}!
+							{% elif user.is_authenticated %}
+								Olá, {{ user.username }}!
+							{% else %}
+						Ótica
+						{% endif %}
 						</div>
 					</div>
 					<div class="col-6">
 						<a href="#"><i class="fa fa-phone"></i>(16) 99999-9410</a>
 						<a href="#"><i class="fa fa-envelope"></i>guile.hm@hotmail.com</a>
+
 					</div>
 				</div>
 			</div>
@@ -53,14 +61,7 @@
 				<nav class="navbar navbar-expand-sm navbar-light bg-light p-0">
 					<a class="navbar-brand" href="#">
 						<img src="{% static 'oticas/img/logo-01.png' %}" width="30" height="30" alt="">
-						<!-- welcome info -->
-						{% if user.is_authenticated and user.first_name %}
-								Olá, {{ user.first_name }}!
-							{% elif user.is_authenticated %}
-								Olá, {{ user.username }}!
-							{% else %}
 						Ótica
-						{% endif %}
 					</a>
 
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,9 +78,6 @@
 							</li>
 							<li class="nav-item">
 								<a class="btn btn-outline-dark btn-sm m-1" href="#">Lojas</a>
-							</li>
-							<li class="nav-item">
-								<a class="btn btn-outline-dark btn-sm m-1" href="#">Quem Somos</a>
 							</li>
 							<li class="nav-item">
 								<a class="btn btn-outline-dark btn-sm m-1" href="#">Contato</a>
@@ -143,12 +141,12 @@
 				<div class="jumbotron bg-black">
 					<a href="#" class="redes-texto" id="texto-redes">REDES SOCIAIS</a>
 					<div class="row">
-						<div class="social-icon">
-							<a href="https://www.facebook.com/guile.hm" class="p-5 a-incr"><i class="fa fa-facebook"></i></a>
-							<a href="https://www.instagram.com/guilehm/" class="p-5 a-incr"><i class="fa fa-instagram"></i></a>
-							<a href="https://github.com/Guilehm" class="p-5 a-incr"><i class="fa fa-github"></i></a>
-							<a href="https://www.linkedin.com/in/guils/" class="p-5 a-incr"><i class="fa fa-linkedin"></i></a>
-							<a href="https://twitter.com/Guile_hm" class="p-5 a-incr"><i class="fa fa-twitter"></i></a>
+						<div class="social-icon mt-5">
+							<a href="https://www.facebook.com/guile.hm" class="p-5"><i class="fab fa-facebook-square a-incr"></i></i></a>
+							<a href="https://www.instagram.com/guilehm/" class="p-5"><i class="fab fa-instagram a-incr"></i></a>
+							<a href="https://github.com/Guilehm" class="p-5"><i class="fab fa-github a-incr"></i></a>
+							<a href="https://www.linkedin.com/in/guils/" class="p-5"><i class="fab fa-linkedin a-incr"></i></a>
+							<a href="https://twitter.com/Guile_hm" class="p-5"><i class="fab fa-twitter-square a-incr"></i></a>
 						</div>
 					</div>
 				</div>

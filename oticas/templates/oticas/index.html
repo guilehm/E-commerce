@@ -1,45 +1,6 @@
 {% extends "oticas/base.html" %}
 {% load staticfiles %}
 
-{% block menu %}
-<div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-            <a class="btn btn-dark btn-sm m-1" href="{% url 'oticas:index' %}">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:oculos' %}">Produtos</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-dark btn-sm m-1" href="#">Lojas</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-dark btn-sm m-1" href="#">Quem Somos</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-dark btn-sm m-1" href="#">Contato</a>
-        </li>
-        {% if user.is_authenticated %}
-        <li class="nav-item">
-            <a class="btn btn-outline-primary btn-sm m-1" href="{% url 'oticas:carrinho' %}">Carrinho <span class="badge badge-success">{{ qtd_carrinho }}</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-outline-danger btn-sm m-1" href="{% url 'oticas:logout' %}">Log-out</a>
-        </li>
-
-        {% else %}
-        <li class="nav-item">
-            <a class="btn btn-outline-info btn-sm m-1" href="{% url 'oticas:login' %}">Log-in</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="btn btn-outline-success btn-sm m-1" href="{% url 'oticas:cadastro' %}">Cadastro</a>
-        </li>
-        {% endif %}
-    </ul>
-</div>
-{% endblock menu %}
-
 {% block content %}
 <!-- Nova seção -->
 <section>

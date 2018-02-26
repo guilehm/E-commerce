@@ -157,12 +157,12 @@
     text-decoration: none;
 }
 .redes-sociais .a-incr {
-    font-size: 100px;
+    font-size: 70px;
     transition: 200ms ease-out;
 }
 
 .redes-sociais .a-incr:hover {
-    font-size: 90px;
+    font-size: 60px;
 }
 
 .bg-black {
