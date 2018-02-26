@@ -99,7 +99,7 @@ def carrinho(request):
         return(url)
 
     def prazo_maior (request):
-        carrinho = Carrinho.objects.all()
+        carrinho = Carrinho.objects.filter(dono=request.user)
         lista_prazo = []
         for i in carrinho:
             lista_prazo.append(i.prazo)
