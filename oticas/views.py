@@ -16,15 +16,14 @@ def index(request):
 
 def context(request): # Criado para enviar context ao base.html
     if request.user.is_authenticated():
-        qtd_carrinhos = Carrinho.objects.all()
         qtd_carrinho= request.user.carrinho_set.all().count()
         context = {
             'qtd_carrinho': qtd_carrinho,
-            'qtd_carrinhos': qtd_carrinhos,
         }
         return context
     else:
-        carrinho = 0
+        key = request.session.session_key
+        carrinho = Carrinho.objects.filter(dono_ano=key).count()
         context = {
             'qtd_carrinho': carrinho
         }
@@ -34,7 +33,7 @@ def oculos(request):
     """Mostra todos os óculos"""
     if not request.session.session_key:
         request.session.create()
-        
+
     oculos = Oculos.objects.order_by('-data_adc')
     context = {'oculos': oculos}
     return render(request, 'oticas/oculos.html', context)
@@ -102,7 +101,7 @@ def carrinho(request):
         total = Carrinho.objects.filter(dono=request.user).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
 
 
-        def calcula_frete (cep_destino='04110021', cep_origem ='14409652', peso='2', tipo_frete='04014',
+        def calcula_frete (cep_destino, cep_origem ='14407000', peso='2', tipo_frete='04014',
                            altura = '10', largura = '20', comprimento = '20'):
 
             url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
@@ -126,12 +125,30 @@ def carrinho(request):
             return(url)
 
         def prazo_maior (request):
-            carrinho = Carrinho.objects.filter(dono=request.user)
-            lista_prazo = []
-            for i in carrinho:
-                lista_prazo.append(i.prazo)
+            if request.user.is_authenticated():
+                carrinho = Carrinho.objects.filter(dono=request.user)
+                if carrinho:
+                    lista_prazo = []
+                    for i in carrinho:
+                        lista_prazo.append(i.prazo)
 
-            return (int(max(lista_prazo)))
+                    return (int(max(lista_prazo)))
+                else:
+                    return (0)
+    
+            else:
+                key = request.session.session_key
+
+                carrinho = Carrinho.objects.filter(dono_ano=key).order_by('data_adc')
+                if carrinho:
+                    lista_prazo = []
+                    for i in carrinho:
+                        lista_prazo.append(i.prazo)
+
+                    return (int(max(lista_prazo)))
+
+                else:
+                    return (0)
 
         cep_destino = request.user.enderecouser_set.values()[0]['cep']
         url = calcula_frete(cep_destino)

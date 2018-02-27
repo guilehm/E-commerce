@@ -19,7 +19,8 @@ class EnderecoAdmin(admin.ModelAdmin):
 
 class CarrinhoAdmin(admin.ModelAdmin):
     usuario = Carrinho.dono
-    list_display = ['__str__','dono','data_adc', 'valor_total']
+    list_display = ['__str__','dono','dono_ano','data_adc', 'valor_total']
+    list_filter = ['dono','dono_ano',]
     class Meta:
         model = Carrinho
 

@@ -6,11 +6,9 @@
     <div class="row">
         <div class="col-md-12 img-home">
             <h1 class="display-3 mt-4 title-white shadowed">Veja nossos produtos</h1>
-            {% if user.is_authenticated %}
             <p class="lead mx-4 mt-5">
                 <a class="btn btn-primary btn-md m-1" href="{% url 'oticas:carrinho' %}">Carrinho <span class="badge badge-success">{{ qtd_carrinho }}</span></a>
             </p>
-            {% endif %}
         </div>
     </div>
 </div>
@@ -58,7 +56,6 @@
                             <a href="#" class="btn btn-success btn-sm mt-1">
                                 <i class="fas fa-cart-arrow-down" data-target="#modalCartAdd{{i.id}}" data-toggle="modal"></i>
                             </a>
-                            <a href="{% url 'oticas:login' %}" class="btn btn-outline-success btn-sm mt-1">Faça Login para comprar</a>
                             {% endif %}
                        </div>
                     </div>
