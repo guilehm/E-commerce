@@ -55,6 +55,9 @@
                             <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
                                class="btn btn-outline-info btn-sm mt-1">Detalhes
                             </a>
+                            <a href="#" class="btn btn-success btn-sm mt-1">
+                                <i class="fas fa-cart-arrow-down" data-target="#modalCartAdd{{i.id}}" data-toggle="modal"></i>
+                            </a>
                             <a href="{% url 'oticas:login' %}" class="btn btn-outline-success btn-sm mt-1">Faça Login para comprar</a>
                             {% endif %}
                        </div>

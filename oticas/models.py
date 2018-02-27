@@ -53,7 +53,8 @@ class EnderecoUser(models.Model):
 
 class Carrinho(models.Model):
     produto = models.ForeignKey(Oculos)
-    dono = models.ForeignKey(User)
+    dono = models.ForeignKey(User, null=True)
+    dono_ano = models.CharField(max_length=60, null=True)
     data_adc = models.DateTimeField(auto_now_add=True)
     valor_total = models.DecimalField(null=True, max_digits=6, decimal_places=2)
 

@@ -32,6 +32,9 @@ def context(request): # Criado para enviar context ao base.html
 
 def oculos(request):
     """Mostra todos os óculos"""
+    if not request.session.session_key:
+        request.session.create()
+        
     oculos = Oculos.objects.order_by('-data_adc')
     context = {'oculos': oculos}
     return render(request, 'oticas/oculos.html', context)
@@ -70,92 +73,123 @@ def endereco(request):
         context = {'end_form': end_form}
         return render(request, 'oticas/endereco.html', context)
 
-@login_required
-def carrinho(request):
-    oculos = Carrinho.objects.filter(dono=request.user).order_by('data_adc')
-    total = Carrinho.objects.filter(dono=request.user).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
 
-    def calcula_frete (cep_destino='04110021', cep_origem ='14409652', peso='2', tipo_frete='04014',
-                       altura = '10', largura = '20', comprimento = '20'):
 
-        url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
-        url += '&nCdEmpresa='
-        url += '&sDsSenha='
-        url += '&nCdServico=' + tipo_frete
-        url += '&sCepOrigem=' + cep_origem
-        url += '&sCepDestino=' + cep_destino
-        url += '&nVlPeso=' + peso
-        url += '&nCdFormato=1'
-        url += '&nVlComprimento=' + comprimento
-        url += '&nVlAltura=' + altura
-        url += '&nVlLargura=' + largura
-        url += '&nVlDiametro=0'
-        url += '&sCdMaoPropria=n'
-        url += '&nVlValorDeclarado=0'
-        url += '&sCdAvisoRecebimento=n'
-        url += '&StrRetorno=xml'
-        url += '&nIndicaCalculo=3'
-
-        return(url)
-
-    def prazo_maior (request):
-        carrinho = Carrinho.objects.filter(dono=request.user)
-        lista_prazo = []
-        for i in carrinho:
-            lista_prazo.append(i.prazo)
-
-        return (int(max(lista_prazo)))
-
-    cep_destino = request.user.enderecouser_set.values()[0]['cep']
-    url = calcula_frete(cep_destino)
-
-    request1 = Request(url)
-    result = urlopen(request1).read()
-
-    result = result.decode('ISO-8859-1')
-    find_valor = ('<Valor>')
-    find_end_valor = ('</Valor>')
-    pos_valor = result.index(find_valor)
-    pos_end_valor = result.index(find_end_valor)
-
-    find_prazo = ('<PrazoEntrega>')
-    find_end_prazo = ('</PrazoEntrega>')
-    pos_prazo = result.index(find_prazo)
-    pos_end_prazo = result.index(find_end_prazo)
-
-    valor = result[pos_valor + len(find_valor): pos_end_valor]
-    prazo = int(result[pos_prazo + len(find_prazo): pos_end_prazo])
-
-    prazo_maior_prod = prazo_maior(request)
-
-    prazo += prazo_maior_prod
-
-    valor_math = valor.replace(',', '.')
-    valor_math = float(valor_math)
-
-    total_math = float(total)
-
-    total_geral = total_math + valor_math
-
-    context = {
-        'url' : url,
-        'valor' : valor,
-        'prazo' : prazo,
-        'oculos': oculos,
-        'total': total,
-        'total_geral' : total_geral,
-    }
-
-    return render(request, 'oticas/carrinho.html', context)
-
-@login_required
 def adicionaCarrinho(request, oculos_id):
-    oculos = Oculos.objects.get(id=oculos_id)
-    oculos_a_adicionar = Carrinho(produto=oculos, dono=request.user, valor_total=oculos.valor)
-    oculos_a_adicionar.save()
+    if request.user.is_authenticated():
+        oculos = Oculos.objects.get(id=oculos_id)
+        oculos_a_adicionar = Carrinho(produto=oculos, dono=request.user, valor_total=oculos.valor)
+        oculos_a_adicionar.save()
+    else:
+        key = request.session.session_key
+        if request.session.session_key:
+            oculos = Oculos.objects.get(id=oculos_id)
+            oculos_a_adicionar = Carrinho(produto=oculos, dono_ano=key, valor_total=oculos.valor)
+            oculos_a_adicionar.save()
+        else:
+            oculos = Oculos.objects.get(id=oculos_id)
+            request.session.create()
+            oculos_a_adicionar = Carrinho(produto=oculos, dono_ano=key, valor_total=oculos.valor)
+            oculos_a_adicionar.save()
+
     return redirect('oticas:oculos')
 
-@login_required
+
+
+def carrinho(request):
+    if request.user.is_authenticated():
+        oculos = Carrinho.objects.filter(dono=request.user).order_by('data_adc')
+        total = Carrinho.objects.filter(dono=request.user).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
+
+
+        def calcula_frete (cep_destino='04110021', cep_origem ='14409652', peso='2', tipo_frete='04014',
+                           altura = '10', largura = '20', comprimento = '20'):
+
+            url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
+            url += '&nCdEmpresa='
+            url += '&sDsSenha='
+            url += '&nCdServico=' + tipo_frete
+            url += '&sCepOrigem=' + cep_origem
+            url += '&sCepDestino=' + cep_destino
+            url += '&nVlPeso=' + peso
+            url += '&nCdFormato=1'
+            url += '&nVlComprimento=' + comprimento
+            url += '&nVlAltura=' + altura
+            url += '&nVlLargura=' + largura
+            url += '&nVlDiametro=0'
+            url += '&sCdMaoPropria=n'
+            url += '&nVlValorDeclarado=0'
+            url += '&sCdAvisoRecebimento=n'
+            url += '&StrRetorno=xml'
+            url += '&nIndicaCalculo=3'
+
+            return(url)
+
+        def prazo_maior (request):
+            carrinho = Carrinho.objects.filter(dono=request.user)
+            lista_prazo = []
+            for i in carrinho:
+                lista_prazo.append(i.prazo)
+
+            return (int(max(lista_prazo)))
+
+        cep_destino = request.user.enderecouser_set.values()[0]['cep']
+        url = calcula_frete(cep_destino)
+
+        request1 = Request(url)
+        result = urlopen(request1).read()
+
+        result = result.decode('ISO-8859-1')
+        find_valor = ('<Valor>')
+        find_end_valor = ('</Valor>')
+        pos_valor = result.index(find_valor)
+        pos_end_valor = result.index(find_end_valor)
+
+        find_prazo = ('<PrazoEntrega>')
+        find_end_prazo = ('</PrazoEntrega>')
+        pos_prazo = result.index(find_prazo)
+        pos_end_prazo = result.index(find_end_prazo)
+
+        valor = result[pos_valor + len(find_valor): pos_end_valor]
+        prazo = int(result[pos_prazo + len(find_prazo): pos_end_prazo])
+
+        prazo_maior_prod = prazo_maior(request)
+
+        prazo += prazo_maior_prod
+
+        valor_math = valor.replace(',', '.')
+        valor_math = float(valor_math)
+
+        total_math = float(total)
+
+        total_geral = total_math + valor_math
+
+        context = {
+            'url': url,
+            'valor': valor,
+            'prazo': prazo,
+            'oculos': oculos,
+            'total': total,
+            'total_geral': total_geral,
+        }
+
+        return render(request, 'oticas/carrinho.html', context)
+
+    else:
+
+        key = request.session.session_key
+
+        oculos = Carrinho.objects.filter(dono_ano=key).order_by('data_adc')
+        total = Carrinho.objects.filter(dono_ano=key).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
+
+        context = {
+            'oculos' : oculos,
+            'total' : total,
+        }
+
+        return render(request, 'oticas/carrinho.html', context)
+
+
 def deletaCarrinho(request, oculos_id):
     oculos = Carrinho.objects.get(id=oculos_id)
     oculos.delete()
