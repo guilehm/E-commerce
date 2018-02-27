@@ -6,9 +6,9 @@
     <div class="row">
         <div class="col-md-12 img-home">
             <h1 class="display-2 mt-4 title-white shadowed">Meu carrinho</h1>
-            <div class="text-center mt-4">
-                <a role="button" class="btn btn-success btn-lg btn-center" href="">Compre com segurança</a>
-            </div>
+            <p class="lead mx-4 mt-5">
+                Conte com toda segurança de nosso site para fazer sua compra.
+            </p>
         </div>
     </div>
 </div>
@@ -16,6 +16,7 @@
 
 {% block content %}
 <!-- carrinho -->
+{% if user.is_authenticated %}
 {% if oculos %}
 <div class="container mt-5">
     <h2 class="display-4 mb-5">Meu carrinho:</h2>
@@ -135,7 +136,145 @@
     <hr>
 </div>
 
+{% else %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Que pena, meu carrinho está vazio :(</h1>
+        <h6 class="text-muted font-weight-normal">Visite nossa página de <a href="{% url 'oticas:oculos' %}" class="text-dark">produtos</a>, escolha o seu óculos e clique em 'Adicionar ao carrinho'.</h6>
+    </div>
+</div>
+{% endif %}
 
+{% else %}
+<!-- se não está autenticado -->
+
+{% if oculos %}
+<div class="container mt-5">
+    <h2 class="display-4 mb-5">Meu carrinho:</h2>
+    <table class="table table-hover">
+        <thead class="thead-dark" align="center">
+            <tr>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Excluir</th>
+            </tr>
+        </thead>
+        <tbody align="center">
+            {% for i in oculos %}
+            <tr>
+                <td>{{ i.marca }}</td>
+                <td>
+                    <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
+                               class="text-dark">{{ i.modelo }}
+                    </a>
+                </td>
+                <td>R$ {{ i.valor }}</td>
+                <td width="12%">
+                        <button type="submit" class="close-center" aria-label="Close" data-target="#modalCartDel{{i.id}}" data-toggle="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </td>
+            </tr>
+
+            <!-- Modal for details -->
+            <div class="modal fade" id="modalCart{{i.id}}" tabindez="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Detalhes do produto</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <img class="card-img-top mb-3" src="{{ i.imagem.url }}" alt="Card image cap">
+                            <p>
+                                <strong>{{ i }}.<br></strong>
+                                <strong>Estilo:</strong> {{ i.estilo }}.<br>
+                                <strong>Descrição:</strong> {{ i.descricao }}.<br>
+                                <strong>Preço R$:</strong> {{ i.valor }}<br>
+                                <strong>Prazo de entrega:</strong> {{ i.prazo }} dias + prazo dos correios.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal deleting to cart -->
+            <div class="modal fade" id="modalCartDel{{i.id}}" tabindez="-1" role="dialog" data-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Excluído do carrinho</h5>
+                            <a href="{% url 'oticas:deletar' i.id %}" target="_self" class="close">
+                                <span>&times;</span>
+                            </a>
+                        </div>
+
+                        <div class="modal-body">
+                            <strong>{{ i }}.<br></strong>
+                            <img class="card-img-top mb-3" src="{{ i.imagem.url }}" alt="Card image cap">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'oticas:deletar' i.id %}" target="_self" class="btn btn-danger">Fechar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <a class="btn btn-primary btn-sm m-1" href="{% url 'oticas:oculos' %}">Escolher mais produtos</a>
+
+        </div>
+        <div class="col-8">
+            <p class="text-right">
+                Total: <strong>R$ {{ total }}</strong>
+            </p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <p>
+                Calcular frete e prazo:
+            </p>
+
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="_____-___" aria-label="" aria-describedby="basic-addon1"
+                minlength="8" maxlength="8" value="">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-info" type="button" data-target="www.uol.com.br">OK</button>
+                </div>
+            </div>
+
+            <a class="btn btn-success btn-sm m-1" href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>
+        </div>
+        <div class="col-4 text-right">
+
+        </div>
+        <div class="col-4">
+            <p class="text-right">
+                Preço do Frete: <strong>R$ {{ valor }}</strong>
+            </p>
+            <hr>
+            <p class="text-right">
+                <strong>Total pedido: R$ {{ total_geral }}</strong>
+            </p>
+        </div>
+    </div>
+    <hr>
+</div>
 
 {% else %}
 <div class="container">
@@ -146,4 +285,5 @@
 </div>
 {% endif %}
 
+{% endif %}
 {% endblock content %}

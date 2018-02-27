@@ -135,7 +135,7 @@ def carrinho(request):
                     return (int(max(lista_prazo)))
                 else:
                     return (0)
-    
+
             else:
                 key = request.session.session_key
 
@@ -193,11 +193,14 @@ def carrinho(request):
         return render(request, 'oticas/carrinho.html', context)
 
     else:
-
         key = request.session.session_key
 
         oculos = Carrinho.objects.filter(dono_ano=key).order_by('data_adc')
         total = Carrinho.objects.filter(dono_ano=key).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
+
+        def calcula_frete(request):
+            pass
+
 
         context = {
             'oculos' : oculos,

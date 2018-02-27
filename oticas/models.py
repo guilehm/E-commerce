@@ -32,6 +32,7 @@ class Oculos(models.Model):
         verbose_name_plural = 'Oculos'
 
 
+
 class EnderecoUser(models.Model):
     """Informações sobre os endereços"""
     user = models.ForeignKey(User)

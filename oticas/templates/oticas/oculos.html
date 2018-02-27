@@ -36,27 +36,14 @@
                             <p class="card-text mt-0"><strong>Prazo entrega:</strong> {{i.prazo}} dias</p>
 
                             <a href="#" class="btn btn-outline-primary btn-sm mt-1" data-target="#modalDetalhes{{i.id}}" data-toggle="modal">Imagens</a>
-                            {% if user.is_authenticated and request.user.enderecouser_set.all %}
+
                             <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
                                class="btn btn-outline-info btn-sm mt-1">Detalhes
                             </a>
-                            <a href="#" class="btn btn-success btn-sm mt-1">
+                            <a class="btn btn-success btn-sm mt-1">
                                 <i class="fas fa-cart-arrow-down" data-target="#modalCartAdd{{i.id}}" data-toggle="modal"></i>
                             </a>
 
-                            {% elif user.is_authenticated %}
-                            <a href="{% url 'oticas:endereco' %}" class="btn btn-outline-success btn-sm mt-1">Adicionar ao carrinho</a>
-                            <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
-                               class="btn btn-outline-info btn-sm mt-1">Detalhes
-                            </a>
-                            {% else %}
-                            <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
-                               class="btn btn-outline-info btn-sm mt-1">Detalhes
-                            </a>
-                            <a href="#" class="btn btn-success btn-sm mt-1">
-                                <i class="fas fa-cart-arrow-down" data-target="#modalCartAdd{{i.id}}" data-toggle="modal"></i>
-                            </a>
-                            {% endif %}
                        </div>
                     </div>
                 </div>
