@@ -26,6 +26,8 @@ def context(request): # Criado para enviar context ao base.html
         print('context1')
         return context
     else:
+        if not request.session.session_key:
+            request.session.create()
         key = request.session.session_key
         carrinho = Carrinho.objects.filter(dono_ano=key).count()
         context = {
@@ -36,8 +38,6 @@ def context(request): # Criado para enviar context ao base.html
 
 def oculos(request):
     """Mostra todos os óculos"""
-    if not request.session.session_key:
-        request.session.create()
 
     oculos = Oculos.objects.order_by('-data_adc')
     context = {'oculos': oculos}
