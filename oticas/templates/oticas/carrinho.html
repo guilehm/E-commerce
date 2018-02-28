@@ -256,6 +256,14 @@
                 <div class="input-group-prepend">
                     <button class="btn btn-outline-info" type="button" data-target="www.uol.com.br">OK</button>
                 </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ cep_form.as_p }}
+                    {{ cep.as_p }}
+                    <button type="submit" class="btn btn-sm btn-outline-success">Enviar</button>
+                </form>
+
             </div>
 
             <a class="btn btn-success btn-sm m-1" href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>

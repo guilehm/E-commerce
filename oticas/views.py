@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import RegistroForm, EnderecoForm, ContatoForm
+from .forms import RegistroForm, EnderecoForm, ContatoForm, CepForm
 from .models import Carrinho
 from .models import Oculos
 

@@ -118,11 +118,11 @@ class ContatoForm(forms.Form):
         self.fields['mensagem'].widget.attrs['placeholder'] = 'Escreva aqui sua mensagem...'
 
 
-class Cep(forms.Form):
+class CepForm(forms.Form):
 
     cep = forms.CharField(label='CEP', required=True)
 
     def __init__(self, *args, **kwargs):
-        super(ContatoForm, self).__init__(*args, **kwargs)
+        super(CepForm, self).__init__(*args, **kwargs)
         self.fields['cep'].widget.attrs['class'] = 'form-control'
         self.fields['cep'].widget.attrs['placeholder'] = '_____-___'
