@@ -6,8 +6,9 @@ from django.conf import settings
 from .forms import RegistroForm, EnderecoForm, ContatoForm, CepForm
 from .models import Carrinho
 from .models import Oculos
-
+from .functions import calcular_frete, prazo_maior_ano
 from urllib.request import Request, urlopen
+
 
 
 # Create your views here.
@@ -22,6 +23,7 @@ def context(request): # Criado para enviar context ao base.html
         context = {
             'qtd_carrinho': qtd_carrinho,
         }
+        print('context1')
         return context
     else:
         key = request.session.session_key
@@ -29,6 +31,7 @@ def context(request): # Criado para enviar context ao base.html
         context = {
             'qtd_carrinho': carrinho
         }
+        print('context2')
         return context
 
 def oculos(request):
@@ -96,7 +99,6 @@ def adicionaCarrinho(request, oculos_id):
     return redirect('oticas:oculos')
 
 
-
 def carrinho(request):
     if request.user.is_authenticated():
         oculos = Carrinho.objects.filter(dono=request.user).order_by('data_adc')
@@ -154,6 +156,7 @@ def carrinho(request):
 
         cep_destino = request.user.enderecouser_set.values()[0]['cep']
         url = calcula_frete(cep_destino)
+        print(url)
 
         request1 = Request(url)
         result = urlopen(request1).read()
@@ -191,7 +194,7 @@ def carrinho(request):
             'total': total,
             'total_geral': total_geral,
         }
-
+        print('render 1')
         return render(request, 'oticas/carrinho.html', context)
 
     else:
@@ -200,16 +203,90 @@ def carrinho(request):
         oculos = Carrinho.objects.filter(dono_ano=key).order_by('data_adc')
         total = Carrinho.objects.filter(dono_ano=key).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
 
-        def calcula_frete(request):
-            pass
+        if request.method == 'POST':
+            cep_form = CepForm(request.POST)
+            if cep_form.is_valid():
+                novo_cep = str(cep_form)
+                print(novo_cep)
+                find_value = ('value="')
+                find_end_value = ('" /></td></tr>')
+                pos_value = novo_cep.index(find_value)
+                pos_end_value = novo_cep.index(find_end_value)
 
+                value = novo_cep[pos_value + len(find_value): pos_end_value]
+                novo_cep = value
+                print(novo_cep)
 
-        context = {
-            'oculos' : oculos,
-            'total' : total,
-        }
+                url = calcular_frete(novo_cep)
 
-        return render(request, 'oticas/carrinho.html', context)
+                request1 = Request(url)
+                result = urlopen(request1).read()
+
+                result = result.decode('ISO-8859-1')
+                find_valor = ('<Valor>')
+                find_end_valor = ('</Valor>')
+                pos_valor = result.index(find_valor)
+                pos_end_valor = result.index(find_end_valor)
+
+                find_prazo = ('<PrazoEntrega>')
+                find_end_prazo = ('</PrazoEntrega>')
+                pos_prazo = result.index(find_prazo)
+                pos_end_prazo = result.index(find_end_prazo)
+
+                valor = result[pos_valor + len(find_valor): pos_end_valor]
+                prazo = int(result[pos_prazo + len(find_prazo): pos_end_prazo])
+
+                prazo_maior_prod = prazo_maior_ano(request)
+
+                prazo += prazo_maior_prod
+
+                valor_math = valor.replace(',', '.')
+                valor_math = float(valor_math)
+
+                total_math = float(total)
+
+                total_geral = total_math + valor_math
+
+                cep_form = CepForm()
+
+                context = {
+                    'oculos': oculos,
+                    'total': total,
+                    'novo_cep': novo_cep,
+                    'url': url,
+                    'valor': valor,
+                    'prazo': prazo,
+                    'total_geral': total_geral,
+                    'cep_form' : cep_form,
+                }
+
+                print(prazo)
+                print(valor)
+                print(total_geral)
+
+                print('render 4')
+                return render(request, 'oticas/carrinho.html', context)
+
+            else:
+                cep_form = CepForm()
+                context = {
+                    'oculos': oculos,
+                    'total': total,
+                    'cep_form': cep_form,
+                }
+                print('render 3')
+                return render(request, 'oticas/carrinho.html', context)
+
+        else:
+            cep_form = CepForm()
+            context = {
+                'oculos': oculos,
+                'total': total,
+                'cep_form' : cep_form,
+            }
+
+            print('render 2')
+            return render(request, 'oticas/carrinho.html', context)
 
 
 def deletaCarrinho(request, oculos_id):

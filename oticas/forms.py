@@ -120,9 +120,9 @@ class ContatoForm(forms.Form):
 
 class CepForm(forms.Form):
 
-    cep = forms.CharField(label='CEP', required=True)
+    cep = forms.CharField(label='', required=True)
 
     def __init__(self, *args, **kwargs):
         super(CepForm, self).__init__(*args, **kwargs)
-        self.fields['cep'].widget.attrs['class'] = 'form-control'
+        self.fields['cep'].widget.attrs['class'] = 'form-control mr-0'
         self.fields['cep'].widget.attrs['placeholder'] = '_____-___'
