@@ -1,0 +1,79 @@
+{% extends "oticas/base.html" %}
+{% load staticfiles %}
+
+{% block main-view %}
+
+{% endblock main-view %}
+
+{% block content %}
+
+<div class="container my-5">
+    {% if sucesso %}
+    <div class="alert alert-success">
+        Mensagem enviada com sucesso
+    </div>
+    {% endif %}
+    <form method="POST">
+        <h2 class="display-4">Entre em contato conosco</h2>
+        {% csrf_token %}
+        {{ contato_form.as_p }}
+        <button type="submit" class="btn btn-sm btn-outline-success">Enviar</button>
+    </form>
+</div>
+
+
+<!-- Formulário Bootstrap de Contato
+<div class="container">
+<form class="form-horizontal">
+<fieldset>
+
+<legend class="display-4 mb-4">Contato</legend>
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Seu Email">Nome</label>
+  <div class="col-md-8">
+  <input id="seu_nome" name="Seu Nome" placeholder="Digite seu nome completo"" class="form-control input-md" required="" type="email">
+
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Email</label>
+  <div class="col-md-8">
+  <input id="seu_email" name="Seu Email" placeholder="Digite seu e-mail" class="form-control input-md" required="" type="text">
+
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Assunto</label>
+  <div class="col-md-8">
+  <input id="textinput" name="textinput" placeholder="Digite o assunto" class="form-control input-md" required="" type="text">
+
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textarea">Mensagem</label>
+  <div class="col-md-4">
+    <textarea class="form-control" id="textarea" name="textarea"></textarea>
+  </div>
+</div>
+
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton"></label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Enviar</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</div>
+
+-->
+{% endblock content %}

@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^endereco/$', views.endereco, name='endereco'),
     url(r'^carrinho/$', views.carrinho, name='carrinho'),
     url(r'^comprar/$', views.comprar, name='comprar'),
+    url(r'^contato/$', views.contato, name='contato'),
     url(r'^carrinho/(?P<oculos_id>\d+)/adicionar$', views.adicionaCarrinho, name='adicionar'),
     url(r'^carrinho/(?P<oculos_id>\d+)/deletar$', views.deletaCarrinho, name='deletar'),
 ]

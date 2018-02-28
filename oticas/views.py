@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from .forms import RegistroForm, EnderecoForm
+from django.core.mail import send_mail
+from django.conf import settings
+from .forms import RegistroForm, EnderecoForm, ContatoForm
 from .models import Carrinho
 from .models import Oculos
 
@@ -222,7 +224,7 @@ def comprar(request):
     total = Carrinho.objects.filter(dono=request.user).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
 
     def calcula_frete (cep_destino='04110021', cep_origem ='14409652', peso='2', tipo_frete='04014',
-                       altura = '10', largura = '20', comprimento = '20'):
+                       altura ='10', largura ='20', comprimento ='20'):
 
         url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
         url += '&nCdEmpresa='
@@ -280,3 +282,26 @@ def comprar(request):
     }
 
     return render(request, 'oticas/comprar.html', context)
+
+
+def contato(request):
+    sucesso = False
+    if request.method == 'POST':
+        contato_form = ContatoForm(request.POST)
+        if contato_form.is_valid():
+            nome = contato_form.cleaned_data['nome']
+            email = contato_form.cleaned_data['email']
+            mensagem = contato_form.cleaned_data['mensagem']
+            mensagem = 'Nome: {0}\nE-mail: {1}\n{2}'.format(nome, email, mensagem)
+            send_mail(
+                'Contato do Gui E-commerce', mensagem, settings.DEFAULT_FROM_EMAIL,
+                [settings.DEFAULT_FROM_EMAIL]
+            )
+            sucesso= True
+    else:
+        contato_form = ContatoForm()
+    context = {
+        'contato_form' : contato_form,
+        'sucesso' : sucesso
+    }
+    return render(request,'oticas/contato.html', context)

@@ -111,6 +111,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/' # Included to manage images
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'oticas/media')
 
+# E-mail
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' #imprime no console
+EMAIL_HOST = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'admin@djangoecommerce.com'
+
 # Heroku configs
 if os.getcwd() == '/app':
     import dj_database_url
