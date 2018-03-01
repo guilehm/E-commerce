@@ -33,3 +33,4 @@ db.sqlite3
 
 # Media
 oticas/media/*
+oticas/static/oticas/css/fontawesome-all.css
