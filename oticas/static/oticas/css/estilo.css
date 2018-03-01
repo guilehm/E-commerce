@@ -44,6 +44,15 @@
 	-ms-background-size:cover;
 }
 
+.img-banner3 {
+	background: url(../img/25.jpg) no-repeat center center;
+	height:100px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
 
 .img-home h1, .lead {
 	color: white;
@@ -140,7 +149,6 @@
 
 
 .fale-conosco a {
-	font-family: fantasy, 'Verdana', arial;
 	letter-spacing: 20px;
 	font-size:  30px;
 	color: white;
@@ -161,14 +169,12 @@
 }
 
 .visite a {
-	font-family: fantasy, 'Verdana', arial;
 	letter-spacing: 20px;
 	font-size:  30px;
 	color: black;
 }
 
 .redes-sociais .redes-texto {
-    font-family: fantasy, 'Verdana', arial;
 	letter-spacing: 20px;
 	font-size:  30px;
 	color: white;

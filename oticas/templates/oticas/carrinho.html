@@ -271,7 +271,9 @@
             <p class="text-right">
                 Preço do Frete: <strong>R$ {{ valor }}</strong>
                 <br>
+                {% if prazo %}
                 Entrega em: {{ prazo }} dia{{ prazo|pluralize }} út{{ prazo|pluralize:'il,eis'}}.
+                {% endif %}
             </p>
             <hr>
             <p class="text-right">
