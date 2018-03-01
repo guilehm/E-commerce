@@ -262,6 +262,8 @@ def carrinho(request):
                 valor_unit_ano = request.session['valor_unit']
                 print(valor_unit_ano)
 
+                valid = True
+
 
                 context = {
                     'oculos': oculos,
@@ -272,7 +274,8 @@ def carrinho(request):
                     'prazo': prazo,
                     'total_geral': total_geral,
                     'cep_form' : cep_form,
-                    'valor_unit' : valor_unit
+                    'valor_unit' : valor_unit,
+                    'valid' : valid,
                 }
 
                 return render(request, 'oticas/carrinho.html', context)

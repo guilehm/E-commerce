@@ -280,7 +280,9 @@
                 <strong>Total pedido: R$ {{ total_geral }}</strong>
             </p>
             <p class="text-right">
+                {% if valid %}
                 <a class="btn btn-success btn-sm m-1 " href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>
+                {% endif %}
             </p>
         </div>
     </div>
