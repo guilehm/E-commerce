@@ -41,7 +41,7 @@ class ProductListView(generic.ListView):
     model = Oculos
     template_name = 'oticas/oculos.html'
     context_object_name = 'oculos'
-    paginate_by = 2
+    paginate_by = 6
 
 oculos = ProductListView.as_view()
 
