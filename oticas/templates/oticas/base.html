@@ -31,14 +31,14 @@
 		<section class="social p-1">
 			<div class="container">
 				<div class="row">
-					<div class="col-3">
+					<div class="col-6 col-md-4">
 						<div class="social-icon">
 							<a href="https://www.facebook.com/guile.hm" target="_blank"><i class="fab fa-facebook-square"></i></a>
 							<a href="https://www.instagram.com/guilehm/" target="_blank"><i class="fab fa-instagram"></i></a>
 							<a href="https://github.com/Guilehm" target="_blank"><i class="fab fa-github"></i></a>
 						</div>
 					</div>
-					<div class="col-4">
+					<div class="col-6 col-md-4">
 						<!-- welcome info -->
 						{% if user.is_authenticated and user.first_name %}
 								<span class="text-white">Olá, {{ user.first_name }}!</span>
@@ -47,7 +47,7 @@
 							{% else %}
 						{% endif %}
 					</div>
-					<div class="col-5">
+					<div class="col-12 col-md-4">
 						<a href="#"><i class="fa fa-phone"></i>(16) 99999-9410</a>
 						<a href="#"><i class="fa fa-envelope"></i>guile.hm@hotmail.com</a>
 
@@ -76,9 +76,6 @@
 							</li>
 							<li class="nav-item">
 								<a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:oculos' %}">Produtos</a>
-							</li>
-							<li class="nav-item">
-								<a class="btn btn-outline-dark btn-sm m-1" href="#">Lojas</a>
 							</li>
 							<li class="nav-item">
 								<a class="btn btn-outline-dark btn-sm m-1" href="{% url 'oticas:contato' %}">Contato</a>

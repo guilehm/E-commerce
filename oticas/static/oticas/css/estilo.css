@@ -15,7 +15,7 @@
 }
 
 .img-home {
-	background: url(../img/17.jpg) no-repeat center center;
+	background: url(../img/11.jpg) no-repeat center center;
 	height: 500px;
 	background-size:cover;
 	-webkit-background-size:cover;
@@ -35,7 +35,7 @@
 }
 
 .img-banner2 {
-	background: url(../img/11.jpg) no-repeat center center;
+	background: url(../img/17.jpg) no-repeat center center;
 	height:100px;
 	background-size:cover;
 	-webkit-background-size:cover;
@@ -46,6 +46,26 @@
 
 .img-banner3 {
 	background: url(../img/25.jpg) no-repeat center center;
+	height:100px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+
+.img-banner4 {
+	background: url(../img/09.jpg) no-repeat center center;
+	height:100px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+
+.img-banner5 {
+	background: url(../img/07.jpg) no-repeat center center;
 	height:100px;
 	background-size:cover;
 	-webkit-background-size:cover;

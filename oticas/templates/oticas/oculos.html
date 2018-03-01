@@ -24,9 +24,9 @@
 
                 {% for i in oculos %}
                 {% if i.disp %}
-                <div class="col-6 col-md-4 col-lg-3 child" style="width: 18rem;">
+                <div class="col-12 col-md-4 col-lg-3 child" style="width: 18rem;">
                     <div class="card border-0">
-                        <img class="card-img-top" src="{{ i.imagem.url }}" alt="Card image cap">
+                        <img class="card-img-top" src="{{ i.imagem.url }}" alt="Card image cap" style=" max-width: 250px;">
                         <div class="card-body">
                             <h5 class="card-title mb-1">{{i.marca}}</h5>
                             <p class="card-text m-0"><strong>Modelo:</strong> {{i.modelo}}</p>

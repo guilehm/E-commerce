@@ -183,10 +183,13 @@ def carrinho(request):
 
         valor_math = valor.replace(',', '.')
         valor_math = float(valor_math)
+        valor_unit = valor_math / oculos.count()
+        valor_unit = round(valor_unit, 2)
 
         total_math = float(total)
 
         total_geral = total_math + valor_math
+
 
         context = {
             'url': url,
@@ -194,6 +197,7 @@ def carrinho(request):
             'prazo': prazo,
             'oculos': oculos,
             'total': total,
+            'valor_unit' : valor_unit,
             'total_geral': total_geral,
         }
 
@@ -245,11 +249,19 @@ def carrinho(request):
                 valor_math = valor.replace(',', '.')
                 valor_math = float(valor_math)
 
+                valor_unit = valor_math / oculos.count()
+                valor_unit = round(valor_unit, 2)
+
                 total_math = float(total)
 
                 total_geral = total_math + valor_math
 
                 cep_form = CepForm()
+
+                request.session['valor_unit'] = valor_unit
+                valor_unit_ano = request.session['valor_unit']
+                print(valor_unit_ano)
+
 
                 context = {
                     'oculos': oculos,
@@ -260,6 +272,7 @@ def carrinho(request):
                     'prazo': prazo,
                     'total_geral': total_geral,
                     'cep_form' : cep_form,
+                    'valor_unit' : valor_unit
                 }
 
                 return render(request, 'oticas/carrinho.html', context)
@@ -290,71 +303,86 @@ def deletaCarrinho(request, oculos_id):
     oculos.delete()
     return redirect('oticas:carrinho')
 
-@login_required
+
 def comprar(request):
+    if request.user.is_authenticated():
+        oculos = Carrinho.objects.filter(dono=request.user).order_by('data_adc')
+        total = Carrinho.objects.filter(dono=request.user).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
 
-    oculos = Carrinho.objects.filter(dono=request.user).order_by('data_adc')
-    total = Carrinho.objects.filter(dono=request.user).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
+        def calcula_frete (cep_destino='04110021', cep_origem ='14409652', peso='2', tipo_frete='04014',
+                           altura ='10', largura ='20', comprimento ='20'):
 
-    def calcula_frete (cep_destino='04110021', cep_origem ='14409652', peso='2', tipo_frete='04014',
-                       altura ='10', largura ='20', comprimento ='20'):
+            url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
+            url += '&nCdEmpresa='
+            url += '&sDsSenha='
+            url += '&nCdServico=' + tipo_frete
+            url += '&sCepOrigem=' + cep_origem
+            url += '&sCepDestino=' + cep_destino
+            url += '&nVlPeso=' + peso
+            url += '&nCdFormato=1'
+            url += '&nVlComprimento=' + comprimento
+            url += '&nVlAltura=' + altura
+            url += '&nVlLargura=' + largura
+            url += '&nVlDiametro=0'
+            url += '&sCdMaoPropria=n'
+            url += '&nVlValorDeclarado=0'
+            url += '&sCdAvisoRecebimento=n'
+            url += '&StrRetorno=xml'
+            url += '&nIndicaCalculo=3'
 
-        url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?'
-        url += '&nCdEmpresa='
-        url += '&sDsSenha='
-        url += '&nCdServico=' + tipo_frete
-        url += '&sCepOrigem=' + cep_origem
-        url += '&sCepDestino=' + cep_destino
-        url += '&nVlPeso=' + peso
-        url += '&nCdFormato=1'
-        url += '&nVlComprimento=' + comprimento
-        url += '&nVlAltura=' + altura
-        url += '&nVlLargura=' + largura
-        url += '&nVlDiametro=0'
-        url += '&sCdMaoPropria=n'
-        url += '&nVlValorDeclarado=0'
-        url += '&sCdAvisoRecebimento=n'
-        url += '&StrRetorno=xml'
-        url += '&nIndicaCalculo=3'
-
-        return(url)
+            return(url)
 
 
-    cep_destino = request.user.enderecouser_set.values()[0]['cep']
-    url = calcula_frete(cep_destino)
+        cep_destino = request.user.enderecouser_set.values()[0]['cep']
+        url = calcula_frete(cep_destino)
 
-    request1 = Request(url)
-    result = urlopen(request1).read()
+        request1 = Request(url)
+        result = urlopen(request1).read()
 
-    result = result.decode('ISO-8859-1')
-    find_valor = ('<Valor>')
-    find_end_valor = ('</Valor>')
-    pos_valor = result.index(find_valor)
-    pos_end_valor = result.index(find_end_valor)
+        result = result.decode('ISO-8859-1')
+        find_valor = ('<Valor>')
+        find_end_valor = ('</Valor>')
+        pos_valor = result.index(find_valor)
+        pos_end_valor = result.index(find_end_valor)
 
-    find_prazo = ('<PrazoEntrega>')
-    find_end_prazo = ('</PrazoEntrega>')
-    pos_prazo = result.index(find_prazo)
-    pos_end_prazo = result.index(find_end_prazo)
+        find_prazo = ('<PrazoEntrega>')
+        find_end_prazo = ('</PrazoEntrega>')
+        pos_prazo = result.index(find_prazo)
+        pos_end_prazo = result.index(find_end_prazo)
 
-    valor = result[pos_valor + len(find_valor): pos_end_valor]
-    prazo = result[pos_prazo + len(find_prazo): pos_end_prazo]
+        valor = result[pos_valor + len(find_valor): pos_end_valor]
+        prazo = result[pos_prazo + len(find_prazo): pos_end_prazo]
 
-    valor_math = valor.replace(',', '.')
-    valor_math = float(valor_math)
-    valor_unit = valor_math / oculos.count()
-    valor_unit = round(valor_unit,2)
+        valor_math = valor.replace(',', '.')
+        valor_math = float(valor_math)
+        valor_unit = valor_math / oculos.count()
+        valor_unit = round(valor_unit,2)
 
-    context = {
-        'url' : url,
-        'valor' : valor,
-        'prazo' : prazo,
-        'oculos': oculos,
-        'total': total,
-        'valor_unit': valor_unit,
-    }
+        context = {
+            'url' : url,
+            'valor' : valor,
+            'prazo' : prazo,
+            'oculos': oculos,
+            'total': total,
+            'valor_unit': valor_unit,
+        }
 
-    return render(request, 'oticas/comprar.html', context)
+        return render(request, 'oticas/comprar.html', context)
+
+    else:
+        key = request.session.session_key
+        oculos = Carrinho.objects.filter(dono_ano=key).order_by('data_adc')
+        total = Carrinho.objects.filter(dono_ano=key).aggregate(Sum('valor_total'))['valor_total__sum'] or 0.00
+
+        valor_unit = request.session['valor_unit']
+
+        context = {
+            'oculos': oculos,
+            'total': total,
+            'valor_unit': valor_unit,
+        }
+
+        return render(request, 'oticas/comprar.html', context)
 
 
 def contato(request):
