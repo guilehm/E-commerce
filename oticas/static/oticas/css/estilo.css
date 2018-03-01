@@ -24,6 +24,27 @@
 	-ms-background-size:cover;
 }
 
+.img-banner {
+	background: url(../img/12.jpg) no-repeat center center;
+	height:100px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+
+.img-banner2 {
+	background: url(../img/11.jpg) no-repeat center center;
+	height:100px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	-o-background-size:cover;
+	-ms-background-size:cover;
+}
+
+
 .img-home h1, .lead {
 	color: white;
 	text-align: center;
@@ -34,6 +55,10 @@
 	margin-top: 10%;
 	padding: 0px;
 	text-shadow: 1px 1px px black;
+}
+
+.subl {
+	text-decoration: underline;
 }
 
 .produtos p {

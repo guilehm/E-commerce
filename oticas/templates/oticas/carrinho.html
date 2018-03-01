@@ -1,8 +1,19 @@
 {% extends "oticas/base.html" %}
 {% load staticfiles %}
 
-{% block main-view%}
+{% block main-view %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 img-banner2">
+        </div>
+    </div>
+</div>
 {% endblock main-view %}
+
+{% block content %}
+<!-- carrinho -->
+{% if user.is_authenticated %}
+{% if oculos %}
 <div class="container mt-5">
     <h2 class="display-4 mb-5">Meu carrinho:</h2>
     <table class="table table-hover">
@@ -20,7 +31,7 @@
                 <td>{{ i.marca }}</td>
                 <td>
                     <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
-                               class="text-dark">{{ i.modelo }}
+                               class="text-dark subl">{{ i.modelo }}
                     </a>
                 </td>
                 <td>R$ {{ i.valor }}</td>
@@ -49,7 +60,7 @@
                                 <strong>Estilo:</strong> {{ i.estilo }}.<br>
                                 <strong>Descrição:</strong> {{ i.descricao }}.<br>
                                 <strong>Preço R$:</strong> {{ i.valor }}<br>
-                                <strong>Prazo de entrega:</strong> {{ i.prazo }} dias + prazo dos correios.
+                                <strong>Entrega em:</strong> {{ i.prazo }} dias + prazo dos correios.
                             </p>
                         </div>
                         <div class="modal-footer">
@@ -100,9 +111,7 @@
     <hr>
     <div class="row">
         <div class="col-4">
-            <p>
-                Prazo de entrega: {{ prazo }} dia{{ prazo|pluralize }} út{{ prazo|pluralize:'il,eis'}}.
-            </p>
+
             <a class="btn btn-success btn-sm m-1" href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>
         </div>
         <div class="col-4 text-right">
@@ -111,6 +120,8 @@
         <div class="col-4">
             <p class="text-right">
                 Preço do Frete: <strong>R$ {{ valor }}</strong>
+                <br>
+                Entrega em: {{ prazo }} dia{{ prazo|pluralize }} út{{ prazo|pluralize:'il,eis'}}.
             </p>
             <hr>
             <p class="text-right">
@@ -119,23 +130,6 @@
         </div>
     </div>
     <hr>
-
-</div>
-
-
-{% block content %}
-<!-- carrinho -->
-{% if user.is_authenticated %}
-{% if oculos %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 img-home">
-            <h1 class="display-2 mt-4 title-white shadowed">Meu carrinho</h1>
-            <p class="lead mx-4 mt-5">
-                Conte com toda segurança de nosso site para fazer sua compra.
-            </p>
-        </div>
-    </div>
 </div>
 
 {% else %}
@@ -148,8 +142,8 @@
 {% endif %}
 
 {% else %}
-<!-- se não está autenticado -->
 
+<!-- se não está autenticado -->
 {% if oculos %}
 <div class="container mt-5">
     <h2 class="display-4 mb-5">Meu carrinho:</h2>
@@ -168,7 +162,7 @@
                 <td>{{ i.marca }}</td>
                 <td>
                     <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
-                               class="text-dark">{{ i.modelo }}
+                               class="text-dark subl">{{ i.modelo }}
                     </a>
                 </td>
                 <td>R$ {{ i.valor }}</td>
@@ -197,7 +191,7 @@
                                 <strong>Estilo:</strong> {{ i.estilo }}.<br>
                                 <strong>Descrição:</strong> {{ i.descricao }}.<br>
                                 <strong>Preço R$:</strong> {{ i.valor }}<br>
-                                <strong>Prazo de entrega:</strong> {{ i.prazo }} dias + prazo dos correios.
+                                <strong>Entrega em:</strong> {{ i.prazo }} dias + prazo dos correios.
                             </p>
                         </div>
                         <div class="modal-footer">
@@ -247,7 +241,7 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-4">
+        <div class="col-12 col-md-4">
 
             <p>
                 Calcular frete e prazo:
@@ -267,19 +261,24 @@
                 </div>
             </form>
 
-            <a class="btn btn-success btn-sm m-1" href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>
+
         </div>
-        <div class="col-4 text-right">
+        <div class="col-12 col-md-4 text-right">
 
         </div>
 
-        <div class="col-4">
+        <div class="col-12 col-md-4">
             <p class="text-right">
                 Preço do Frete: <strong>R$ {{ valor }}</strong>
+                <br>
+                Entrega em: {{ prazo }} dia{{ prazo|pluralize }} út{{ prazo|pluralize:'il,eis'}}.
             </p>
             <hr>
             <p class="text-right">
                 <strong>Total pedido: R$ {{ total_geral }}</strong>
+            </p>
+            <p class="text-right">
+                <a class="btn btn-success btn-sm m-1 " href="{% url 'oticas:comprar' %}">Finalizar Pedido</a>
             </p>
         </div>
     </div>
