@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.core.mail import send_mail
 from django.conf import settings
+from django.views import generic
 from .forms import RegistroForm, EnderecoForm, ContatoForm, CepForm
 from .models import Carrinho
 from .models import Oculos
@@ -23,7 +24,7 @@ def context(request): # Criado para enviar context ao base.html
         context = {
             'qtd_carrinho': qtd_carrinho,
         }
-        print('context1')
+
         return context
     else:
         if not request.session.session_key:
@@ -33,15 +34,17 @@ def context(request): # Criado para enviar context ao base.html
         context = {
             'qtd_carrinho': carrinho
         }
-        print('context2')
+
         return context
 
-def oculos(request):
-    """Mostra todos os óculos"""
+class ProductListView(generic.ListView):
+    model = Oculos
+    template_name = 'oticas/oculos.html'
+    context_object_name = 'oculos'
+    paginate_by = 2
 
-    oculos = Oculos.objects.order_by('-data_adc')
-    context = {'oculos': oculos}
-    return render(request, 'oticas/oculos.html', context)
+oculos = ProductListView.as_view()
+
 
 def cadastro(request):
     if request.method == 'POST':
@@ -156,7 +159,6 @@ def carrinho(request):
 
         cep_destino = request.user.enderecouser_set.values()[0]['cep']
         url = calcula_frete(cep_destino)
-        print(url)
 
         request1 = Request(url)
         result = urlopen(request1).read()
@@ -194,7 +196,7 @@ def carrinho(request):
             'total': total,
             'total_geral': total_geral,
         }
-        print('render 1')
+
         return render(request, 'oticas/carrinho.html', context)
 
     else:
@@ -207,7 +209,7 @@ def carrinho(request):
             cep_form = CepForm(request.POST)
             if cep_form.is_valid():
                 novo_cep = str(cep_form)
-                print(novo_cep)
+
                 find_value = ('value="')
                 find_end_value = ('" /></td></tr>')
                 pos_value = novo_cep.index(find_value)
@@ -215,7 +217,7 @@ def carrinho(request):
 
                 value = novo_cep[pos_value + len(find_value): pos_end_value]
                 novo_cep = value
-                print(novo_cep)
+
 
                 url = calcular_frete(novo_cep)
 
@@ -260,11 +262,6 @@ def carrinho(request):
                     'cep_form' : cep_form,
                 }
 
-                print(prazo)
-                print(valor)
-                print(total_geral)
-
-                print('render 4')
                 return render(request, 'oticas/carrinho.html', context)
 
             else:
@@ -274,7 +271,7 @@ def carrinho(request):
                     'total': total,
                     'cep_form': cep_form,
                 }
-                print('render 3')
+
                 return render(request, 'oticas/carrinho.html', context)
 
         else:
@@ -285,7 +282,6 @@ def carrinho(request):
                 'cep_form' : cep_form,
             }
 
-            print('render 2')
             return render(request, 'oticas/carrinho.html', context)
 
 

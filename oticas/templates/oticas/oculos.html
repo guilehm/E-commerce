@@ -140,10 +140,25 @@
                 </div>
                 {% endif %}
                 {% endfor %}
+
+
+
             </div>
         </div>
     </div>
+
+    <!-- Paginação -->
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Paginação produtos">
+                <ul class="pagination">
+                    {% for page in paginator.page_range %}
+                        <li><a href="?page={{ page }}">{{ page }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
 </div>
-
-
 {% endblock content %}
