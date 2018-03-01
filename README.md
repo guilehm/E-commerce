@@ -1,8 +1,8 @@
 ## Welcome to my repository.
 
-This website was developed in Python with Django Framework.
+This website is being developed in Python with Django Framework.
 
-Instill in development.
+You may find some bugs because it's still in development.
 
 I will appreciate your comments and suggestions.
 
