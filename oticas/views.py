@@ -184,10 +184,14 @@ def carrinho(request):
         valor_math = valor.replace(',', '.')
         valor_math = float(valor_math)
 
+        print(valor_math)
+        print(oculos.all().count())
 
-        if oculos.count() <= 0:
-            oculos.count = 1
-        valor_unit = valor_math / oculos.count
+        if oculos.all().count() <= 0:
+            contagem = 1
+        else:
+            contagem = oculos.all().count()
+        valor_unit = valor_math / contagem
         valor_unit = round(valor_unit, 2)
 
         total_math = float(total)
