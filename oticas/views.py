@@ -184,9 +184,6 @@ def carrinho(request):
         valor_math = valor.replace(',', '.')
         valor_math = float(valor_math)
 
-        print(valor_math)
-        print(oculos.all().count())
-
         if oculos.all().count() <= 0:
             contagem = 1
         else:
