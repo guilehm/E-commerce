@@ -25,7 +25,7 @@
                 {% for i in oculos %}
                 {% if i.disp %}
                 <div class="col-12 col-md-4 col-lg-3 child" style="width: 18rem;">
-                    <div class="card border-0">
+                    <div class="card border-0" style=" max-width: 300px;">
                         <img class="card-img-top" src="{{ i.imagem.url }}" alt="Card image cap" style=" max-width: 250px;">
                         <div class="card-body">
                             <h5 class="card-title mb-1">{{i.marca}}</h5>
@@ -33,13 +33,19 @@
                             <p class="card-text m-0"><strong>Preço: R$ {{i.valor}}</strong></p>
                             <p class="card-text m-0">{{i.pagamento}}</p>
                             <p class="card-text mt-0"><strong>Prazo entrega:</strong> {{i.prazo}} dias</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="#" class="btn btn-outline-primary btn-sm btn-block mt-1" data-target="#modalDetalhes{{i.id}}" data-toggle="modal">Imagens</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
+                                       class="btn btn-outline-info btn-sm btn-block mt-1">Detalhes
+                                    </a>
+                                </div>
+                            </div>
 
-                            <a href="#" class="btn btn-outline-primary btn-sm mt-1" data-target="#modalDetalhes{{i.id}}" data-toggle="modal">Imagens</a>
-
-                            <a href="#" data-target="#modalCart{{i.id}}" data-toggle="modal"
-                               class="btn btn-outline-info btn-sm mt-1">Detalhes
-                            </a>
-                            <a class="btn btn-success btn-sm mt-1">
+                            <a class="btn btn-success btn-sm btn-block mt-1">
+                                <span data-target="#modalCartAdd{{i.id}}" data-toggle="modal" class="text-white">Adicionar ao carrinho</span>
                                 <i class="fas fa-cart-arrow-down" data-target="#modalCartAdd{{i.id}}" data-toggle="modal"></i>
                             </a>
 
