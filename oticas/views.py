@@ -193,7 +193,7 @@ def carrinho(request):
 
         total_math = float(total)
 
-        total_geral = total_math + valor_math
+        total_geral = round((total_math + valor_math),2)
 
 
         context = {
@@ -259,7 +259,7 @@ def carrinho(request):
 
                 total_math = float(total)
 
-                total_geral = total_math + valor_math
+                total_geral = round((total_math + valor_math),2)
 
                 cep_form = CepForm()
 
